@@ -1,36 +1,32 @@
 # Presentation: KRICO at ECOMOD, 19 November 2026
 
-Figures and scripts for a presentation of KRICO Paper 1 at the bi-weekly ECOMOD team meeting (RBINS, 19 November 2026).
+Figures and scripts for a presentation of the first paper of the KRICO project (Antarctic Krill Connectivity), given at the ECOMOD team meeting of the Royal Belgian Institute of Natural Sciences on 19 November 2026.
 
 Author: Olivier Gourgue (RBINS)
 
 Slides: [2026-11-19 ECOMOD KRICO](https://docs.google.com/presentation/d/1kUFjV7REQEYdEu6D1OFgO5d55Zh6K5q9bMNvMk79uLk/edit?usp=sharing) (Google Slides)
 
+The figures are adapted for slides from [krico-paper1](https://github.com/ogourgue/krico-paper1). They show the work as presented on that day; later versions of the paper may differ.
+
 Related repositories:
 
-* __[krico-paper1](https://github.com/ogourgue/krico-paper1)__ — Figures and analysis for the paper; the source of most figures here
+* __[krico-paper1](https://github.com/ogourgue/krico-paper1)__ — Figures and analysis for the paper
 * __[krico-post-production](https://github.com/ogourgue/krico-post-production)__ — Post-processing and recruitment classification pipeline
 * __[krico-templates](https://github.com/ogourgue/krico-templates)__ — Simulation templates (Parcels + GLORYS12v1)
 
-## Format
+## Reproducing the figures
 
-This repository follows a fixed format, one repository per presentation, named `presentation-<date>-<context>-<project>`. Every presentation has one context; it can cover no project, one or several, so projects come last.
+Each figure has its own folder, with a `plot.py`, the data it reads in `data/`, and the rendered figure. To reproduce one:
 
-- **One folder per figure.** Each holds `plot.py`, the data it reads in `data/`, the rendered figure, and a `README.md`. Running `python plot.py` inside the folder reproduces the figure.
-- **`shared/` holds what is identical across figures**: the CCAMLR shapefile and anything else several folders read. Nothing else is shared between folders.
-- **Rendered figures are always committed**, so the slides never depend on data that is not here.
-- **Data files under about 5 MB are committed.** Larger files are gitignored; the folder's `README.md` then says where the data lives and how to regenerate it.
-- **A figure taken from another repository is a copy, not a link.** The folder's `README.md` records the source repository and commit. This repository is a snapshot of what was shown on the day; later changes to the paper do not propagate here.
+```bash
+cd <folder>
+python plot.py
+```
+
+`shared/` holds files used by several figures.
 
 ## Folders
 
 | Folder | Slide | Source |
 |---|---|---|
-| `shared/ccamlr-data` | — | [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-
-## Environment
-
-- `environment-local.txt` — package versions on the laptop (MacPorts Python), written with `python -m pip list --format=freeze`.
-- `environment-hpc.txt` — modules loaded on the HPC (`module list`). Present only if a folder runs there.
-
-These files record what produced the figures; they are not installers.
+| `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |

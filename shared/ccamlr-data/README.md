@@ -12,8 +12,7 @@ Files included (all from `geographical_data/asd/`):
 - `CCAMLR_ASD_EPSG4326.cpg` — character encoding (if present)
 
 These files define the CCAMLR Statistical Areas, Subareas and Divisions
-in WGS84 (EPSG:4326). Used by F1, F4, and F5 figure scripts for subarea
-outlines and per-subarea spatial analyses.
+in WGS84 (EPSG:4326). Used by the map figures for subarea outlines.
 
 Please cite CCAMLR as the data source if you use this shapefile in your
 own work.
