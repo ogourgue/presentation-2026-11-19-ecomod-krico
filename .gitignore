@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Data files above ~5 MB are not committed. List each one here by path, with
+# a comment saying where it lives; the folder README says how to regenerate it.
+
+# Job logs
+**/logs/
+ecsbatch.log.*
