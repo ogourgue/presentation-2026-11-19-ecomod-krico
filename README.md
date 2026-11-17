@@ -4,7 +4,7 @@ Figures and scripts for a presentation of KRICO Paper 1 at the bi-weekly ECOMOD 
 
 Author: Olivier Gourgue (RBINS)
 
-Slides: (link to be added)
+Slides: [2026-11-19 ECOMOD KRICO](https://docs.google.com/presentation/d/1kUFjV7REQEYdEu6D1OFgO5d55Zh6K5q9bMNvMk79uLk/edit?usp=sharing) (Google Slides)
 
 Related repositories:
 
