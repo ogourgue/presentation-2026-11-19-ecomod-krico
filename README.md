@@ -29,4 +29,9 @@ python plot.py
 
 | Folder | Slide | Source |
 |---|---|---|
+| `F1_domain_map` | | `F1_domain_map` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F2_phenology_curve` | | `F2_phenology_curve` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F3_outcome_composition` | | `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F4_source_maps` | | `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F5_destination_maps` | | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
