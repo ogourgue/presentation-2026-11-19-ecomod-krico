@@ -10,3 +10,10 @@ __pycache__/
 # Downloaded sea-ice concentration files (F1; fetch with download_sic.sh,
 # verify against F1_domain_map/sic_provenance.txt)
 **/data/sic/
+
+# FS2: the mean circulation field (about 58 MB) is not committed. Rebuild it
+# with FS2_currents/aggregate.py; see FS2_currents/README.md. The checkpoint
+# and the SLURM logs are by-products of that run.
+FS2_currents/data/aggregated.nc
+FS2_currents/data/checkpoint.npz
+FS2_currents/*.out

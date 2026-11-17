@@ -25,6 +25,11 @@ python plot.py
 
 `shared/` holds files used by several figures.
 
+Two folders differ:
+
+* `FS1_phenology_per_year` has no aggregation of its own. Its `plot.py` reads the aggregated data of `F2_phenology_curve`.
+* The aggregated data of `FS2_currents` (about 58 MB) are not committed. Redrawing that figure needs its aggregation re-run first; see `FS2_currents/README.md`.
+
 ## Re-running the aggregation
 
 `aggregate.py` rebuilds `data/aggregated.nc` from the data upstream. Each folder README lists what its script reads.
@@ -50,7 +55,9 @@ python aggregate.py
 python plot.py
 ```
 
-F1 does not read the recruitment dataset. Its aggregation needs the GLORYS12v1 bathymetry and observed sea-ice concentration; see `F1_domain_map/README.md`.
+FS1 is drawn from the aggregated data of F2, so it rests on version 2.0.0 as well.
+
+F1 and FS2 do not read the recruitment dataset. The aggregation of F1 needs the GLORYS12v1 bathymetry and observed sea-ice concentration; see `F1_domain_map/README.md`. The aggregation of FS2 needs the daily GLORYS12v1 velocity fields; see `FS2_currents/README.md`.
 
 ## Folders
 
@@ -61,4 +68,6 @@ F1 does not read the recruitment dataset. Its aggregation needs the GLORYS12v1 b
 | `F3_outcome_composition` | | `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `F4_source_maps` | | `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `F5_destination_maps` | | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `FS1_phenology_per_year` | | `FS1_phenology_per_year` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `FS2_currents` | | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
