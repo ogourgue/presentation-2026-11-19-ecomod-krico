@@ -14,6 +14,9 @@ Inputs:  $KRICO_POST/recruitment/data/YYYY_MM_DD.nc (3848 files), extracted
          from version 2.0.0 of the KRICO Recruitment Outcomes Dataset
          (1994-2025), https://doi.org/10.5281/zenodo.22548763
 Output:  data/aggregated.nc
+
+Every cohort file is checked against that version before it is counted; the
+script stops at the first file from another version.
 """
 
 from __future__ import annotations
@@ -37,6 +40,12 @@ import xarray as xr
 DATASET_NAME = "KRICO Recruitment Outcomes Dataset (1994-2025)"
 DATASET_VERSION = "2.0.0"
 DATASET_DOI = "10.5281/zenodo.22548763"
+
+# Global attributes by which the version of a cohort file is recognised
+# (see check_dataset_version).
+V2_ATTRIBUTES = ("m1_spawning_offset_days", "m1_spawning_date", "m1_sic_source")
+LATER_ATTRIBUTES = ("sic_source", "trajectory_sic_source")
+M1_SPAWNING_OFFSET_DAYS = 24
 
 # Outcome integer flags from the recruitment pipeline (CF flag values).
 OUTCOME_NAMES = (
@@ -104,6 +113,7 @@ def aggregate(data_dir: Path) -> xr.Dataset:
 
     for n, path in enumerate(files, start=1):
         with xr.open_dataset(path) as ds:
+            check_dataset_version(ds, path)
             outcome = ds["outcome"].values
             release_lon = ds["release_lon"].values
             release_lat = ds["release_lat"].values
@@ -179,6 +189,49 @@ def aggregate(data_dir: Path) -> xr.Dataset:
         },
     )
     return ds_out
+
+
+# ---------------------------------------------------------------------------
+# Dataset version check
+# ---------------------------------------------------------------------------
+
+def check_dataset_version(ds: xr.Dataset, path: Path) -> None:
+    """
+    Stop unless a cohort file comes from version 2.0.0 of the dataset.
+
+    The files carry no version number. The version is recognised from the
+    global attributes written by the pipeline that produced them
+    (krico-post-production):
+
+      - version 2.0.0 files carry the three M1 provenance attributes, with
+        M1 evaluated 24 days before release;
+      - version 1.0.0 files carry none of them;
+      - files written by later versions of the pipeline (from October 2026)
+        also carry sic_source and trajectory_sic_source.
+    """
+    missing = [name for name in V2_ATTRIBUTES if name not in ds.attrs]
+    later = [name for name in LATER_ATTRIBUTES if name in ds.attrs]
+
+    if missing:
+        reason = (f"it lacks the global attribute(s) {', '.join(missing)}, "
+                  f"as files of version 1.0.0 do")
+    elif later:
+        reason = (f"it carries the global attribute(s) {', '.join(later)}, "
+                  f"written by later versions of the pipeline")
+    elif int(ds.attrs["m1_spawning_offset_days"]) != M1_SPAWNING_OFFSET_DAYS:
+        reason = (f"m1_spawning_offset_days is "
+                  f"{int(ds.attrs['m1_spawning_offset_days'])}, "
+                  f"not {M1_SPAWNING_OFFSET_DAYS}")
+    else:
+        return
+
+    sys.exit(
+        f"ERROR: {path} is not from version {DATASET_VERSION} of the "
+        f"{DATASET_NAME}:\n"
+        f"  {reason}.\n"
+        f"This script builds data/aggregated.nc from version {DATASET_VERSION} "
+        f"only (https://doi.org/{DATASET_DOI})."
+    )
 
 
 # ---------------------------------------------------------------------------

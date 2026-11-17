@@ -20,7 +20,7 @@ Adapted from `F2_phenology_curve` in [krico-paper1](https://github.com/ogourgue/
 
 ## Input data
 
-`aggregate.py` reads the per-particle recruitment outcomes of version 2.0.0 of the KRICO Recruitment Outcomes Dataset (1994–2025), [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763), from `$KRICO_POST/recruitment/data/`. The DOI is that of version 2.0.0 itself. The main README explains how to get that version.
+`aggregate.py` reads the per-particle recruitment outcomes of version 2.0.0 of the KRICO Recruitment Outcomes Dataset (1994–2025), [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763), from `$KRICO_POST/recruitment/data/`. The DOI is that of version 2.0.0 itself. The script checks every file it reads and stops if one comes from another version. The main README explains how to get version 2.0.0.
 
 ## Files
 

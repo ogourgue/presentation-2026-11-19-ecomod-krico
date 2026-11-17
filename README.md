@@ -31,6 +31,8 @@ python plot.py
 
 F2 to F5 read the per-particle recruitment outcomes of **version 2.0.0** of the KRICO Recruitment Outcomes Dataset (1994–2025), DOI [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763). That DOI is the one of version 2.0.0 itself, not of the dataset as a whole. The dataset has other versions, and the figures here are built on 2.0.0 only; version 1.0.0, for one, gives different numbers.
 
+The files carry no version number, so the scripts recognise the version from the global attributes of each file: version 2.0.0 files have `m1_spawning_offset_days` (24), `m1_spawning_date` and `m1_sic_source`, and neither `sic_source` nor `trajectory_sic_source`. A script stops at the first file that does not match.
+
 To get version 2.0.0 (about 42 GB to download, 56 GB extracted) with the scripts of [krico-post-production](https://github.com/ogourgue/krico-post-production):
 
 ```bash
