@@ -7,13 +7,14 @@ interannual 5th-95th percentile envelope; that envelope describes the spread
 of success *rates* at a given release date, not the spread of *peak dates*.
 This figure separates the two:
 
-  - left panel: all 32 individual per-year curves, with the climatological
+  - upper panel: all 32 individual per-year curves, with the climatological
     mean overlaid, and each year's own peak marked
-  - right panel: the distribution of per-year peak release dates, with the
+  - lower panel: the distribution of per-year peak release dates, with the
     median and inter-quartile range
 
-The two panels are side by side, on the same x-axis range and ticks, so that
-dates read the same way in both. One legend, below the panels, serves both.
+The two panels share an x-axis so the scatter of per-year peaks in the lower
+panel lines up with the curves in the upper one. One legend, to the right of
+the panels, serves both.
 
 The distinction matters because max() is nonlinear: the climatological curve
 peaks later and lower than the average per-year peak, because averaging
@@ -44,8 +45,8 @@ from matplotlib.ticker import MaxNLocator
 # Style
 # ---------------------------------------------------------------------------
 #
-# Two panels side by side, with the legend below them. Everything else is
-# left at its rcParams default: marker sizes, legend font
+# Two stacked panels, the upper one taller, with the legend to their right.
+# Everything else is left at its rcParams default: marker sizes, legend font
 # size, histogram edges and axis limits are not overridden. The one exception
 # is the individual-year line width, noted below.
 
@@ -55,8 +56,12 @@ mpl.rcParams.update({
     "figure.figsize": (9.32, 3.74),
 })
 
-# Number of columns of the legend. Entries fill it column by column.
-LEGEND_NCOLS = 3
+# Height of the upper panel relative to the lower one.
+HEIGHT_RATIOS = (1.5, 1.0)
+
+# Horizontal padding of the layout, in inches. It is the gap between the axes
+# and the legend.
+LAYOUT_W_PAD = 0.1
 
 
 # ---------------------------------------------------------------------------
@@ -81,7 +86,7 @@ COLOR_MEAN = "C0"
 COLOR_YEAR = "C1"
 
 # The only departure from the rcParams defaults: 32 curves at the default
-# line width (1.5) fill the left panel solid, and alpha alone does not separate
+# line width (1.5) fill the upper panel solid, and alpha alone does not separate
 # them from the climatological mean. The mean keeps the default width, so
 # the default is what the eye anchors on.
 YEAR_CURVE_LINEWIDTH = 1.0
@@ -99,7 +104,7 @@ LEGEND_FRAMEALPHA = 1.0
 # Y-axis grid, matching the other figures: default grey (#b0b0b0) at 0.5.
 GRID_ALPHA = 0.5
 
-# Right panel only. Alpha separates the IQR fill from the bars; rwidth insets
+# Lower panel only. Alpha separates the IQR fill from the bars; rwidth insets
 # the bars so the bin edges are visible.
 SPAN_ALPHA = 0.2
 BAR_ALPHA = 0.5
@@ -246,11 +251,12 @@ def plot(aggregated_path: Path, out_path: Path) -> None:
     season_day = st["season_day"]
 
     fig, (ax_a, ax_b) = plt.subplots(
-        1, 2, sharex=True, constrained_layout=True,
+        2, 1, sharex=True, constrained_layout=True,
+        gridspec_kw={"height_ratios": HEIGHT_RATIOS},
     )
 
     # ------------------------------------------------------------------
-    # Left panel: individual per-year curves with the climatological mean
+    # Upper panel: individual per-year curves with the climatological mean
     # ------------------------------------------------------------------
     # Stacking, bottom to top: individual-year curves, the two vertical peak
     # lines (blue over orange), the climatological mean, then the per-year
@@ -279,7 +285,7 @@ def plot(aggregated_path: Path, out_path: Path) -> None:
     h_mean, = ax_a.plot(season_day, st["mean_per_day"],
                         color=COLOR_MEAN, zorder=5, label="32-year mean")
 
-    # Each year's own peak, which is what the right panel counts. Open
+    # Each year's own peak, which is what the lower panel counts. Open
     # markers in the per-year colour, opaque so they stay legible where
     # several years peak close together.
     h_marks, = ax_a.plot(
@@ -288,12 +294,11 @@ def plot(aggregated_path: Path, out_path: Path) -> None:
         markerfacecolor="white", markeredgecolor=COLOR_YEAR,
         zorder=6, label="Per-year peak")
 
-    # On two lines: on one, the label is longer than the panel is tall.
     ax_a.set_ylabel("Recruitment\nsuccess rate (%)")
     ax_a.grid(True, axis="y", alpha=GRID_ALPHA)
 
     # ------------------------------------------------------------------
-    # Right panel: distribution of per-year peak release dates
+    # Lower panel: distribution of per-year peak release dates
     # ------------------------------------------------------------------
     days = st["peak_day"][st["valid"]]
 
@@ -305,25 +310,30 @@ def plot(aggregated_path: Path, out_path: Path) -> None:
     ax_b.axvline(st["peak_day_median"], color=COLOR_YEAR,
                  linestyle=PEAK_LINESTYLE, zorder=2)
 
-    ax_b.set_ylabel("Number of spawning years")
-    ax_b.yaxis.set_major_locator(MaxNLocator(integer=True))
+    ax_b.set_ylabel("Number of\nspawning years")
+    # Few enough ticks that their labels stay clear of each other.
+    ax_b.yaxis.set_major_locator(MaxNLocator(nbins=4, integer=True))
     ax_b.grid(True, axis="y", alpha=GRID_ALPHA)
 
     # Shared x-axis, matching F2.
     ax_b.set_xlim(season_day[0], LAST_SEASON_DAY)
     ax_b.set_xticks(TICK_DAYS)
     ax_b.set_xticklabels(TICK_LABELS)
-    for ax in (ax_a, ax_b):
-        ax.set_xlabel("Release date")
+    ax_b.set_xlabel("Release date")
 
-    # One legend for both panels, below them. Explicit handle order, column
-    # by column: the per-year curves and their mean, the two kinds of peak,
-    # then the median and inter-quartile range of the per-year peaks.
+    # The y-labels take two lines each, so that they fit the height of their
+    # panel; aligned on one vertical line.
+    fig.align_ylabels([ax_a, ax_b])
+
+    # One legend for both panels, to the right of them. Explicit handle
+    # order: the climatological curve and its peak first, then the per-year
+    # peaks, their median and their inter-quartile range.
     fig.legend(
-        handles=[h_years, h_mean, h_marks, h_peak, h_median, h_iqr],
-        loc="outside lower center", ncols=LEGEND_NCOLS,
-        framealpha=LEGEND_FRAMEALPHA,
+        handles=[h_years, h_mean, h_peak, h_marks, h_median, h_iqr],
+        loc="outside right center", framealpha=LEGEND_FRAMEALPHA,
     )
+    # Wider padding than the default, to set the legend apart from the axes.
+    fig.get_layout_engine().set(w_pad=LAYOUT_W_PAD)
 
     fig.savefig(out_path, dpi=500)
     plt.close(fig)
