@@ -16,7 +16,7 @@ Related repositories:
 
 ## Reproducing the figures
 
-Each figure has its own folder, with a `plot.py`, the data it reads in `data/`, and the rendered figure. To reproduce one:
+Each figure has its own folder, with `aggregate.py`, `plot.py`, the aggregated data in `data/` and the rendered figure. The aggregated data are committed, so redrawing a figure needs only:
 
 ```bash
 cd <folder>
@@ -24,6 +24,31 @@ python plot.py
 ```
 
 `shared/` holds files used by several figures.
+
+## Re-running the aggregation
+
+`aggregate.py` rebuilds `data/aggregated.nc` from the data upstream. Each folder README lists what its script reads.
+
+F2 to F5 read the per-particle recruitment outcomes of **version 2.0.0** of the KRICO Recruitment Outcomes Dataset (1994–2025), DOI [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763). That DOI is the one of version 2.0.0 itself, not of the dataset as a whole. The dataset has other versions, and the figures here are built on 2.0.0 only; version 1.0.0, for one, gives different numbers.
+
+To get version 2.0.0 (about 42 GB to download, 56 GB extracted) with the scripts of [krico-post-production](https://github.com/ogourgue/krico-post-production):
+
+```bash
+cd /path/to/krico-post-production/recruitment/scripts
+python download_from_zenodo.py --doi 10.5281/zenodo.22548763
+./extract_archives.sh
+```
+
+Give the DOI explicitly: without `--doi`, the script downloads the version that goes with its own code, which may be a later one. Then:
+
+```bash
+export KRICO_POST=/path/to/krico-post-production
+cd <folder>
+python aggregate.py
+python plot.py
+```
+
+F1 does not read the recruitment dataset. Its aggregation needs the GLORYS12v1 bathymetry and observed sea-ice concentration; see `F1_domain_map/README.md`.
 
 ## Folders
 

@@ -2,7 +2,7 @@
 
 What happens to the particles as a function of release date: 32-year climatological breakdown into recruitment success and the ways of failing to recruit, as a stacked area.
 
-Adapted from `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748`. `data/aggregated.nc` is an unchanged copy; `plot.py` is modified. The source folder describes how the data file is produced.
+Adapted from `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748`. `data/aggregated.nc` is an unchanged copy. `aggregate.py` is the same code, with the input dataset and its version stated. `plot.py` is modified (see below).
 
 ## What it shows
 
@@ -27,14 +27,29 @@ Recruitment success is green; the five M layers take a yellow-to-red gradient, l
 - Wider and flatter, with the legend to the right of the axes instead of inside them.
 - Larger text.
 
+## Input data
+
+`aggregate.py` reads the per-particle recruitment outcomes of version 2.0.0 of the KRICO Recruitment Outcomes Dataset (1994–2025), [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763), from `$KRICO_POST/recruitment/data/`. The DOI is that of version 2.0.0 itself. The main README explains how to get that version.
+
 ## Files
 
+- `aggregate.py` — counts particles per spawning year, release day and outcome, writes `data/aggregated.nc`.
 - `plot.py` — reads `data/aggregated.nc`, writes `outcome_composition.png`.
 - `data/aggregated.nc` — particle counts per spawning year, release day and outcome.
 - `outcome_composition.png` — the rendered figure.
 
 ## Run
 
+To redraw the figure from the committed `data/aggregated.nc`:
+
 ```bash
+python plot.py
+```
+
+To rebuild `data/aggregated.nc` first:
+
+```bash
+export KRICO_POST=/path/to/krico-post-production
+python aggregate.py
 python plot.py
 ```

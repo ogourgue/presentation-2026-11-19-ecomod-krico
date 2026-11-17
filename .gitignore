@@ -6,3 +6,7 @@
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+
+# Downloaded sea-ice concentration files (F1; fetch with download_sic.sh,
+# verify against F1_domain_map/sic_provenance.txt)
+**/data/sic/

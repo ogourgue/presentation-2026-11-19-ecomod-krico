@@ -2,7 +2,7 @@
 
 Where the particles of each outcome were released: one map per outcome, for recruitment success and the five ways of failing to recruit (M1, M4, M5a, M5b, M6). The outcomes are described in `../F3_outcome_composition/README.md`.
 
-Adapted from `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748`. `data/aggregated.nc` is an unchanged copy; `plot.py` is modified. The source folder describes how the data file is produced.
+Adapted from `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748`. `data/aggregated.nc` is an unchanged copy. `aggregate.py` is the same code, with the input dataset and its version stated. `plot.py` is modified (see below).
 
 ## What it shows
 
@@ -21,14 +21,29 @@ Particles alive at the end of tracking with sea-ice concentration still rising a
 - Panel labels without letters, in the upper-right corner of each panel.
 - Larger text.
 
+## Input data
+
+`aggregate.py` reads the per-particle recruitment outcomes of version 2.0.0 of the KRICO Recruitment Outcomes Dataset (1994–2025), [10.5281/zenodo.22548763](https://doi.org/10.5281/zenodo.22548763), from `$KRICO_POST/recruitment/data/`. The DOI is that of version 2.0.0 itself. The main README explains how to get that version.
+
 ## Files
 
+- `aggregate.py` — bins the release positions of the particles of each outcome on the 1° grid, writes `data/aggregated.nc`.
 - `plot.py` — reads `data/aggregated.nc` and the CCAMLR shapefile in `../shared/ccamlr-data/`, writes `source_maps.png`.
 - `data/aggregated.nc` — particle counts per outcome on the 1° grid, by release position.
 - `source_maps.png` — the rendered figure.
 
 ## Run
 
+To redraw the figure from the committed `data/aggregated.nc`:
+
 ```bash
+python plot.py
+```
+
+To rebuild `data/aggregated.nc` first:
+
+```bash
+export KRICO_POST=/path/to/krico-post-production
+python aggregate.py
 python plot.py
 ```
