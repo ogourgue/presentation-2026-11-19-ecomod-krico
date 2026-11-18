@@ -1,5 +1,5 @@
 """
-Pictograms for the F0 diagram: Antarctic krill, five of its predators and a
+Pictograms for the F0a diagram: Antarctic krill, five of its predators and a
 krill trawler.
 
 Each function returns one pictogram as a shapely geometry, in its own

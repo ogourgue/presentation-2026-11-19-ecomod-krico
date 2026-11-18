@@ -21,7 +21,7 @@ Two colours separate what the model simulates from what it does not:
          calyptopis stage to the furcilia stages that can overwinter under
          sea ice. The larvae on that path and their names are dark grey.
 
-The adult krill comes from the pictograms of the F0 diagram, the larvae from
+The adult krill comes from the pictograms of the F0a diagram, the larvae from
 larvae.py. This script scales them, places them and draws the rest, on a
 transparent background.
 
@@ -46,7 +46,7 @@ from shapely.geometry import Polygon
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "F0_krill_predators_fishery"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "F0a_krill_predators_fishery"))
 import pictograms  # noqa: E402
 from pictograms import blob, open_curve, stroke  # noqa: E402
 

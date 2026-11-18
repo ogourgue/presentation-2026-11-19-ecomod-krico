@@ -37,11 +37,11 @@ The criteria are those of the paper (Section 2.2), adapted from Thorpe et al. (2
 
 ## Input data
 
-None. The diagram is drawn from shapes: the adult krill of `pictograms.py` in `F0_krill_predators_fishery`, and the larvae of `larvae.py`.
+None. The diagram is drawn from shapes: the adult krill of `pictograms.py` in `F0a_krill_predators_fishery`, and the larvae of `larvae.py`.
 
 ## Files
 
-- `larvae.py` — the pictograms of the egg, the nauplius, the calyptopis and the furcilia, built with the helpers of `F0_krill_predators_fishery/pictograms.py`.
+- `larvae.py` — the pictograms of the egg, the nauplius, the calyptopis and the furcilia, built with the helpers of `F0a_krill_predators_fishery/pictograms.py`.
 - `plot.py` — scales and places the pictograms, draws the sea ice, the seabed, the paths and the labels, and writes `krill_life_cycle.png`.
 - `krill_life_cycle.png` — the rendered diagram.
 
@@ -51,4 +51,4 @@ None. The diagram is drawn from shapes: the adult krill of `pictograms.py` in `F
 python plot.py
 ```
 
-`--output` writes the diagram to another file. The scripts need `numpy`, `shapely` and `matplotlib`, and the folder `F0_krill_predators_fishery` next to this one.
+`--output` writes the diagram to another file. The scripts need `numpy`, `shapely` and `matplotlib`, and the folder `F0a_krill_predators_fishery` next to this one.

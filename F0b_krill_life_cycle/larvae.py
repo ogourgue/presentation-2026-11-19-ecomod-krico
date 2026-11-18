@@ -6,7 +6,7 @@ Pictograms for the F0b diagram: the early life stages of Antarctic krill.
   calyptopis()  calyptopis, facing right
   furcilia()    furcilia, facing right
 
-Same conventions as the pictograms of the F0 diagram, whose helpers they are
+Same conventions as the pictograms of the F0a diagram, whose helpers they are
 built with: each function returns one pictogram as a shapely geometry, in its
 own arbitrary units, with y pointing down. Details (eye, body segments) are
 holes, so a pictogram is filled in a single colour.
@@ -23,7 +23,7 @@ from pathlib import Path
 import numpy as np
 from shapely.ops import unary_union
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "F0_krill_predators_fishery"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "F0a_krill_predators_fishery"))
 from pictograms import blob, circle, soften, stroke  # noqa: E402
 
 

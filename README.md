@@ -6,7 +6,7 @@ Author: Olivier Gourgue (RBINS)
 
 Slides: [2026-11-19 ECOMOD KRICO](https://docs.google.com/presentation/d/1kUFjV7REQEYdEu6D1OFgO5d55Zh6K5q9bMNvMk79uLk/edit?usp=sharing) (Google Slides)
 
-The figures are adapted for slides from [krico-paper1](https://github.com/ogourgue/krico-paper1). They show the work as presented on that day; later versions of the paper may differ. F0 and F0b are introductory diagrams drawn for the presentation; they are not in the paper.
+The figures are adapted for slides from [krico-paper1](https://github.com/ogourgue/krico-paper1). They show the work as presented on that day; later versions of the paper may differ. F0a and F0b are introductory diagrams drawn for the presentation; they are not in the paper.
 
 Related repositories:
 
@@ -27,8 +27,8 @@ python plot.py
 
 Four folders differ:
 
-* `F0_krill_predators_fishery` is a diagram and has no data. Its `plot.py` draws it from the shapes in `pictograms.py`.
-* `F0b_krill_life_cycle` is a diagram and has no data either. Its `plot.py` draws it from the shapes in `larvae.py` and in `F0_krill_predators_fishery/pictograms.py`.
+* `F0a_krill_predators_fishery` is a diagram and has no data. Its `plot.py` draws it from the shapes in `pictograms.py`.
+* `F0b_krill_life_cycle` is a diagram and has no data either. Its `plot.py` draws it from the shapes in `larvae.py` and in `F0a_krill_predators_fishery/pictograms.py`.
 * `FS1_phenology_per_year` has no aggregation of its own. Its `plot.py` reads the aggregated data of `F2_phenology_curve`.
 * The aggregated data of `FS2_currents` (about 58 MB) are not committed. Redrawing that figure needs its aggregation re-run first; see `FS2_currents/README.md`.
 
@@ -65,7 +65,7 @@ F1 and FS2 do not read the recruitment dataset. The aggregation of F1 needs the 
 
 | Folder | Slide | Source |
 |---|---|---|
-| `F0_krill_predators_fishery` | | Drawn for this presentation; not in the paper |
+| `F0a_krill_predators_fishery` | | Drawn for this presentation; not in the paper |
 | `F0b_krill_life_cycle` | | Drawn for this presentation; not in the paper |
 | `F1_domain_map` | | `F1_domain_map` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `F2_phenology_curve` | | `F2_phenology_curve` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |

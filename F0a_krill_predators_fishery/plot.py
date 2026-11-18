@@ -1,5 +1,5 @@
 """
-F0 plot: Antarctic krill between its predators and the fishery.
+F0a plot: Antarctic krill between its predators and the fishery.
 
 A diagram, not a data figure. Krill is in the middle. Its predators are on
 the left, drawn as one group (humpback whale, crabeater seal, Adelie penguin,
