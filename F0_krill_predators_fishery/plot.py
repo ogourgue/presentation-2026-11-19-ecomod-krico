@@ -78,7 +78,7 @@ mpl.rcParams.update({
 })
 
 COLOR = "#222222"
-ARROW_COLOR = "#5E84D2"
+ARROW_COLOR = "#4A86E8"
 
 # Distance between the outer pictograms and the left and right edges.
 MARGIN = 8
