@@ -1,14 +1,19 @@
 """
 F0 plot: Antarctic krill between its predators and the fishery.
 
-A diagram, not a data figure. Krill is in the middle. Four of its predators
-are on the left (humpback whale, crabeater seal, Adelie penguin, mackerel
-icefish) and a krill trawler is on the right. An arrow runs from each of them
-to the krill: all five take krill.
+A diagram, not a data figure. Krill is in the middle. Its predators are on
+the left, drawn as one group (humpback whale, crabeater seal, Adelie penguin,
+mackerel icefish), and a krill trawler is on the right. One arrow runs from
+each side to the krill; the predators are gathered around the tail of theirs.
 
-The pictograms come from pictograms.py. This script scales them, places them
-and draws the arrows. Everything is filled in one colour on a transparent
-background; the details of the pictograms are holes.
+The width of the shaft of each arrow is proportional to the amount of krill
+taken per year: what the predators eat on the left, what the fishery catches
+on the right. The arrowheads are not to scale. Each arrow carries its amount.
+
+The pictograms come from pictograms.py. This script scales them, places them,
+and draws the arrows and their labels, on a transparent background. The
+pictograms are in one colour and the arrows and their amounts in another. The
+details of the pictograms are holes.
 
 Inputs:  none
 Output:  krill_predators_fishery.png
@@ -26,11 +31,32 @@ import numpy as np
 from matplotlib.patches import PathPatch
 from matplotlib.path import Path as MplPath
 from shapely import affinity
-from shapely.geometry import LineString, Polygon
+from shapely.geometry import Polygon
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
 
 import pictograms
+
+
+# ---------------------------------------------------------------------------
+# Numbers
+# ---------------------------------------------------------------------------
+#
+# Krill taken per year, in million tonnes (Mt).
+#
+# Predators: consumption by the main vertebrate groups (whales, seals,
+# seabirds and fish) in CCAMLR Subareas 48.1 to 48.3, a minimum estimate
+# (Trathan & Hill, 2016, Table 1).
+#
+# Fishery: the catch level at which CCAMLR closes the krill fishery in
+# Subareas 48.1 to 48.4 (Conservation Measure 51-01), reached in 2025 and in
+# 2026.
+
+CONSUMPTION = 55.0
+CATCH = 0.62
+
+CONSUMPTION_LABEL = "≥ 55 Mt\nper year"
+CATCH_LABEL = "0.62 Mt\nper year"
 
 
 # ---------------------------------------------------------------------------
@@ -41,41 +67,47 @@ import pictograms
 # y pointing down.
 
 mpl.rcParams.update({
+    "font.family": "Arial",
+    "font.size": 14,
     "figure.figsize": (9.32, 3.74),
 })
 
 COLOR = "#222222"
+ARROW_COLOR = "#5E84D2"
 
-# Width of the krill, and its clearance: the arrows stop on an ellipse this
-# far outside its bounding box.
-KRILL_WIDTH = 236
-KRILL_CLEARANCE = 16
+# Distance between the outer pictograms and the left and right edges.
+MARGIN = 8
 
-# Predators, top to bottom: pictogram, width or height, right edge, centre y.
-# The outer two sit further right than the inner two, so that the four arrows
-# have similar lengths.
+# Krill, in the centre.
+KRILL_WIDTH = 184
+
+# Predators: pictogram, width or height, left edge and top edge. They form a
+# group around the tail of their arrow: the whale above it, the seal behind
+# it, the icefish and the penguin below it.
 PREDATORS = (
-    (pictograms.whale, {"w": 200}, 232, 47),
-    (pictograms.seal, {"w": 190}, 212, 136),
-    (pictograms.penguin, {"h": 92}, 212, 229),
-    (pictograms.icefish, {"w": 196}, 232, 326),
+    (pictograms.whale, {"w": 262}, 8, 14),
+    (pictograms.seal, {"w": 190}, 8, 157),
+    (pictograms.icefish, {"w": 212}, 12, 296),
+    (pictograms.penguin, {"h": 106}, 240, 256),
 )
 
-# Trawler: width, distance to the right edge, and the fraction of its height
-# (from the top) that is level with the krill, so that the arrow leaves from
-# the hull.
-TRAWLER_WIDTH = 225
-TRAWLER_MARGIN = 6
+# Trawler: width, and the fraction of its height (from the top) that is level
+# with the krill, so that the arrow leaves from the hull.
+TRAWLER_WIDTH = 250
 TRAWLER_LEVEL = 0.70
 
-# Gap between a pictogram and the start of its arrow.
-ARROW_GAP_PREDATOR = 14
-ARROW_GAP_TRAWLER = 12
+# Arrows. The shaft is ARROW_SCALE wide per Mt per year. The head of the
+# predator arrow is sized from its shaft; the head of the fishery arrow has a
+# fixed size, large enough to be seen.
+ARROW_SCALE = 1.7
+ARROW_GAP = 13
+HEAD_WIDTH_RATIO = 1.5
+HEAD_LENGTH_RATIO = 0.55
+MIN_HEAD_WIDTH = 9
+MIN_HEAD_LENGTH = 11
 
-# Arrow: shaft width, head length and head width.
-ARROW_WIDTH = 3.2
-ARROW_HEAD_LENGTH = 15
-ARROW_HEAD_WIDTH = 13
+# Distance between the fishery arrow and the bottom of its label.
+LABEL_GAP = 7
 
 
 # ---------------------------------------------------------------------------
@@ -92,77 +124,98 @@ def fit(geom, w=None, h=None):
     return affinity.scale(geom, s, s, origin=(x0, y0))
 
 
-def put(geom, cy, right=None, cx=None):
-    """Move geom so that its centre is at height cy, and its right edge at
-    `right` or its centre at `cx`."""
+def put(geom, cy=None, top=None, left=None, right=None, cx=None):
+    """Move geom. Vertically: centre at cy, or top edge at `top`.
+    Horizontally: left edge at `left`, right edge at `right`, or centre at
+    `cx`."""
     x0, y0, x1, y1 = geom.bounds
-    dx = right - x1 if right is not None else cx - (x0 + x1) / 2
-    return affinity.translate(geom, dx, cy - (y0 + y1) / 2)
+    if left is not None:
+        dx = left - x0
+    elif right is not None:
+        dx = right - x1
+    else:
+        dx = cx - (x0 + x1) / 2
+    dy = top - y0 if top is not None else cy - (y0 + y1) / 2
+    return affinity.translate(geom, dx, dy)
 
 
-def arrow(start, end):
-    """Arrow from start to end, as a polygon."""
-    (x0, y0), (x1, y1) = start, end
-    length = math.hypot(x1 - x0, y1 - y0)
-    ux, uy = (x1 - x0) / length, (y1 - y0) / length
-    bx, by = x1 - ux * ARROW_HEAD_LENGTH, y1 - uy * ARROW_HEAD_LENGTH
-    shaft = LineString([start, (bx + ux, by + uy)]).buffer(
-        ARROW_WIDTH / 2, cap_style="round"
-    )
-    half = ARROW_HEAD_WIDTH / 2
+def arrow(x_start, x_end, y, width):
+    """Horizontal arrow at height y, with a shaft of the given width.
+    Returns the polygon and the x-range of the shaft."""
+    head_width = max(HEAD_WIDTH_RATIO * width, MIN_HEAD_WIDTH)
+    head_length = max(HEAD_LENGTH_RATIO * width, MIN_HEAD_LENGTH)
+    d = 1 if x_end > x_start else -1
+    x_base = x_end - d * head_length
+    shaft = Polygon([
+        (x_start, y - width / 2),
+        (x_base + d, y - width / 2),
+        (x_base + d, y + width / 2),
+        (x_start, y + width / 2),
+    ])
     head = Polygon([
-        (x1, y1),
-        (bx - uy * half, by + ux * half),
-        (bx + uy * half, by - ux * half),
-    ]).buffer(0.8)
-    return unary_union([shaft, head])
-
-
-def on_ellipse(point, centre, rx, ry):
-    """Where the segment from point to centre crosses the ellipse of
-    half-axes rx and ry around centre."""
-    dx, dy = point[0] - centre[0], point[1] - centre[1]
-    s = 1 / math.sqrt((dx / rx) ** 2 + (dy / ry) ** 2)
-    return (centre[0] + s * dx, centre[1] + s * dy)
+        (x_end, y),
+        (x_base, y - head_width / 2),
+        (x_base, y + head_width / 2),
+    ])
+    return unary_union([shaft, head]), sorted((x_start, x_base))
 
 
 def compose(width, height):
-    """All the shapes of the diagram, on a canvas of width x height."""
-    centre = (width / 2, height / 2)
-    krill = put(fit(pictograms.krill(), w=KRILL_WIDTH), centre[1], cx=centre[0])
-    x0, y0, x1, y1 = krill.bounds
-    rx = (x1 - x0) / 2 + KRILL_CLEARANCE
-    ry = (y1 - y0) / 2 + KRILL_CLEARANCE
-    shapes = [krill]
+    """The pictograms, the two arrows and the anchor points of their labels,
+    on a canvas of width x height."""
+    cx, cy = width / 2, height / 2
 
-    for pictogram, size, right, cy in PREDATORS:
-        shapes.append(put(fit(pictogram(), **size), cy, right=right))
-        start = (right + ARROW_GAP_PREDATOR, cy)
-        shapes.append(arrow(start, on_ellipse(start, centre, rx, ry)))
+    krill = put(fit(pictograms.krill(), w=KRILL_WIDTH), cy=cy, cx=cx)
+
+    predators = [
+        put(fit(pictogram(), **size), top=top, left=left)
+        for pictogram, size, left, top in PREDATORS
+    ]
+    seal = predators[1]
 
     trawler = fit(pictograms.trawler(), w=TRAWLER_WIDTH)
     x0, y0, x1, y1 = trawler.bounds
     trawler = affinity.translate(
         trawler,
-        width - TRAWLER_MARGIN - x1,
-        centre[1] - (y0 + TRAWLER_LEVEL * (y1 - y0)),
+        width - MARGIN - x1,
+        cy - (y0 + TRAWLER_LEVEL * (y1 - y0)),
     )
-    shapes.append(trawler)
-    start = (trawler.bounds[0] - ARROW_GAP_TRAWLER, centre[1])
-    shapes.append(arrow(start, on_ellipse(start, centre, rx, ry)))
 
-    for shape in shapes:
+    eaten, (xa, xb) = arrow(
+        seal.bounds[2] + ARROW_GAP,
+        krill.bounds[0] - ARROW_GAP,
+        cy,
+        ARROW_SCALE * CONSUMPTION,
+    )
+    caught, (xc, xd) = arrow(
+        trawler.bounds[0] - ARROW_GAP,
+        krill.bounds[2] + ARROW_GAP,
+        cy,
+        ARROW_SCALE * CATCH,
+    )
+
+    pictos = [krill, *predators, trawler]
+    arrows = [eaten, caught]
+    for shape in pictos + arrows:
         x0, y0, x1, y1 = shape.bounds
         if x0 < 0 or y0 < 0 or x1 > width or y1 > height:
             raise ValueError(f"shape outside the canvas: {shape.bounds}")
-    return shapes
+
+    # The predator label sits in the shaft and may reach into the head; the
+    # fishery label sits above the arrow.
+    head_reach = 0.25 * HEAD_LENGTH_RATIO * ARROW_SCALE * CONSUMPTION
+    labels = {
+        "eaten": ((xa + xb + head_reach) / 2, cy),
+        "caught": ((xc + xd + MIN_HEAD_LENGTH) / 2, cy - LABEL_GAP),
+    }
+    return pictos, arrows, labels
 
 
 # ---------------------------------------------------------------------------
 # Drawing
 # ---------------------------------------------------------------------------
 
-def to_patch(geom):
+def to_patch(geom, color):
     """Filled patch of a polygon or multipolygon, holes included."""
     polygons = [geom] if geom.geom_type == "Polygon" else list(geom.geoms)
     vertices, codes = [], []
@@ -180,7 +233,7 @@ def to_patch(geom):
             )
     return PathPatch(
         MplPath(np.vstack(vertices), np.concatenate(codes)),
-        facecolor=COLOR,
+        facecolor=color,
         edgecolor="none",
     )
 
@@ -201,11 +254,26 @@ def main():
     ax.set_ylim(height, 0)
     ax.set_aspect("equal")
     ax.axis("off")
-    for shape in compose(width, height):
-        ax.add_patch(to_patch(shape))
+
+    pictos, arrows, labels = compose(width, height)
+    for shape in pictos:
+        ax.add_patch(to_patch(shape, COLOR))
+    for shape in arrows:
+        ax.add_patch(to_patch(shape, ARROW_COLOR))
+    ax.text(
+        *labels["eaten"], CONSUMPTION_LABEL,
+        color="white", ha="center", va="center", linespacing=1.15,
+    )
+    ax.text(
+        *labels["caught"], CATCH_LABEL,
+        color=ARROW_COLOR, ha="center", va="bottom", linespacing=1.15,
+    )
 
     fig.savefig(args.output, dpi=500, transparent=True)
-    print(f"wrote {args.output}")
+    print(
+        f"wrote {args.output}  "
+        f"(predators : fishery = {CONSUMPTION / CATCH:.0f} : 1)"
+    )
 
 
 if __name__ == "__main__":
