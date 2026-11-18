@@ -77,5 +77,5 @@ F1 and FS2 do not read the recruitment dataset. The aggregation of F1 needs the 
 | `F5_destination_maps` | | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `FS1_phenology_per_year` | | `FS1_phenology_per_year` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `FS2_currents` | | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `MS1_outcome_movie` | | `MS1_outcome_movie` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `MS1_outcome_movie` | 6-7 | `MS1_outcome_movie` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
