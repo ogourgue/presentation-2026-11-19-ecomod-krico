@@ -49,9 +49,8 @@ import pictograms
 # seabirds and fish) in CCAMLR Subareas 48.1 to 48.3, a minimum estimate
 # (Trathan & Hill, 2016, Table 1).
 #
-# Fishery: the trigger level, the catch at which CCAMLR closes the krill
-# fishery in Subareas 48.1 to 48.4 (Conservation Measure 51-01 (2010),
-# paragraph 3), reached in 2025 and in 2026.
+# Fishery: the catch limit in force in Subareas 48.1 to 48.4, also called the
+# trigger level, reached for the first time in 2025 (Meyer et al., 2025).
 
 CONSUMPTION = 55.0
 CATCH = 0.62
