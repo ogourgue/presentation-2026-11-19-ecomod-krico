@@ -3,8 +3,9 @@ F0 plot: Antarctic krill between its predators and the fishery.
 
 A diagram, not a data figure. Krill is in the middle. Its predators are on
 the left, drawn as one group (humpback whale, crabeater seal, Adelie penguin,
-mackerel icefish), and a krill trawler is on the right. One arrow runs from
-each side to the krill; the predators are gathered around the tail of theirs.
+Antarctic prion, mackerel icefish), and a krill trawler is on the right. One
+arrow runs from each side to the krill; the predators are gathered around
+theirs.
 
 The width of the shaft of each arrow is proportional to the amount of krill
 taken per year: what the predators eat on the left, what the fishery catches
@@ -48,9 +49,9 @@ import pictograms
 # seabirds and fish) in CCAMLR Subareas 48.1 to 48.3, a minimum estimate
 # (Trathan & Hill, 2016, Table 1).
 #
-# Fishery: the catch level at which CCAMLR closes the krill fishery in
-# Subareas 48.1 to 48.4 (Conservation Measure 51-01), reached in 2025 and in
-# 2026.
+# Fishery: the trigger level, the catch at which CCAMLR closes the krill
+# fishery in Subareas 48.1 to 48.4 (Conservation Measure 51-01 (2010),
+# paragraph 3), reached in 2025 and in 2026.
 
 CONSUMPTION = 55.0
 CATCH = 0.62
@@ -82,13 +83,14 @@ MARGIN = 8
 KRILL_WIDTH = 184
 
 # Predators: pictogram, width or height, left edge and top edge. They form a
-# group around the tail of their arrow: the whale above it, the seal behind
+# group around their arrow: the whale and the prion above it, the seal behind
 # it, the icefish and the penguin below it.
 PREDATORS = (
-    (pictograms.whale, {"w": 262}, 8, 14),
+    (pictograms.whale, {"w": 240}, 8, 16),
     (pictograms.seal, {"w": 190}, 8, 157),
     (pictograms.icefish, {"w": 212}, 12, 296),
     (pictograms.penguin, {"h": 106}, 240, 256),
+    (pictograms.prion, {"w": 112}, 262, 30),
 )
 
 # Trawler: width, and the fraction of its height (from the top) that is level

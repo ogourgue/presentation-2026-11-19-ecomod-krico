@@ -1,5 +1,5 @@
 """
-Pictograms for the F0 diagram: Antarctic krill, four of its predators and a
+Pictograms for the F0 diagram: Antarctic krill, five of its predators and a
 krill trawler.
 
 Each function returns one pictogram as a shapely geometry, in its own
@@ -15,6 +15,7 @@ The shapes are stylised, not anatomical drawings:
   whale()    humpback whale (Megaptera novaeangliae)
   seal()     crabeater seal (Lobodon carcinophaga)
   penguin()  Adelie penguin (Pygoscelis adeliae)
+  prion()    Antarctic prion (Pachyptila desolata)
   icefish()  mackerel icefish (Champsocephalus gunnari)
   trawler()  stern trawler
 
@@ -273,6 +274,70 @@ def penguin():
     g = soften(unary_union([body, flipper]), 1.5) - belly - eye_ring
     fl_line = stroke([(83, 122), (72, 152), (54, 182)], 2.4)
     return g - fl_line
+
+
+# ---------------------------------------------------------------------------
+# Prion
+# ---------------------------------------------------------------------------
+
+def prion():
+    """Antarctic prion in flight: narrow pointed wings, wedge-shaped tail."""
+    body = blob(
+        [
+            (356, 113, "c"),
+            (340, 105),
+            (326, 98),
+            (308, 96),
+            (288, 100),
+            (252, 101),
+            (208, 104),
+            (166, 109),
+            (140, 113),
+            (116, 112, "c"),
+            (110, 122, "c"),
+            (140, 127),
+            (166, 131),
+            (208, 135),
+            (252, 135),
+            (292, 129),
+            (322, 123),
+            (340, 118),
+        ]
+    )
+    near_wing = blob(
+        [
+            (278, 103, "c"),
+            (272, 78),
+            (254, 54),
+            (224, 35),
+            (184, 21),
+            (140, 11),
+            (100, 8, "c"),
+            (140, 25),
+            (178, 42),
+            (206, 60),
+            (220, 82),
+            (224, 105, "c"),
+        ]
+    )
+    far_wing = blob(
+        [
+            (308, 100, "c"),
+            (318, 76),
+            (320, 52),
+            (310, 32),
+            (292, 16, "c"),
+            (297, 40),
+            (299, 62),
+            (293, 82),
+            (284, 101, "c"),
+        ]
+    )
+    g = soften(unary_union([body, near_wing, far_wing]), 1.5)
+    eye = circle(327, 106, 3.2)
+    bill = stroke([(356, 114), (342, 113)], 2.0)
+    wing_line = stroke([(270, 104), (246, 110), (222, 108)], 2.2)
+    return g - unary_union([eye, bill, wing_line])
 
 
 # ---------------------------------------------------------------------------
