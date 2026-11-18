@@ -9,7 +9,9 @@ theirs.
 
 The width of the shaft of each arrow is proportional to the amount of krill
 taken per year: what the predators eat on the left, what the fishery catches
-on the right. The arrowheads are not to scale. Each arrow carries its amount.
+on the right. The predators' amount is a range, and their arrow is drawn for
+the middle of it. The arrowheads are not to scale. Each arrow carries its
+amount.
 
 The pictograms come from pictograms.py. This script scales them, places them,
 and draws the arrows and their labels, on a transparent background. The
@@ -45,17 +47,20 @@ import pictograms
 #
 # Krill taken per year, in million tonnes (Mt).
 #
-# Predators: consumption by the main vertebrate groups (whales, seals,
-# seabirds and fish) in CCAMLR Subareas 48.1 to 48.3, a minimum estimate
-# (Trathan & Hill, 2016, Table 1).
+# Predators: consumption by the main krill predators (fish, penguins, flying
+# seabirds, seals and whales) in the Scotia Sea and Antarctic Peninsula
+# region, as a range (Saunders et al., 2019, Table 7). The arrow is drawn for
+# the middle of the range.
 #
 # Fishery: the catch limit in force in Subareas 48.1 to 48.4, also called the
 # trigger level, reached for the first time in 2025 (Meyer et al., 2025).
 
-CONSUMPTION = 55.0
+CONSUMPTION_MIN = 34.3
+CONSUMPTION_MAX = 61.3
+CONSUMPTION = (CONSUMPTION_MIN + CONSUMPTION_MAX) / 2
 CATCH = 0.62
 
-CONSUMPTION_LABEL = "≥ 55 Mt\nper year"
+CONSUMPTION_LABEL = "34–61 Mt\nper year"
 CATCH_LABEL = "0.62 Mt\nper year"
 
 
@@ -273,7 +278,8 @@ def main():
     fig.savefig(args.output, dpi=500, transparent=True)
     print(
         f"wrote {args.output}  "
-        f"(predators : fishery = {CONSUMPTION / CATCH:.0f} : 1)"
+        f"(predators : fishery = {CONSUMPTION / CATCH:.0f} : 1, "
+        f"from {CONSUMPTION_MIN / CATCH:.0f} to {CONSUMPTION_MAX / CATCH:.0f})"
     )
 
 
