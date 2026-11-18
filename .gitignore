@@ -17,3 +17,10 @@ __pycache__/
 FS2_currents/data/aggregated.nc
 FS2_currents/data/checkpoint.npz
 FS2_currents/*.out
+
+# MS1: the one-cohort aggregation (a few hundred MB) is not committed, and
+# the frames are rendered from it by MS1_outcome_movie/plot.py. See
+# MS1_outcome_movie/README.md. The logs are by-products of the SLURM job.
+MS1_outcome_movie/data/aggregated.nc
+MS1_outcome_movie/frames/
+MS1_outcome_movie/logs/
