@@ -70,11 +70,11 @@ F1 and FS2 do not read the recruitment dataset. The aggregation of F1 needs the 
 | `F0a_krill_predators_fishery` | 2 | Drawn for this presentation; not in the paper |
 | `F0b_krill_life_cycle` | 4 | Drawn for this presentation; not in the paper |
 | `F1_domain_map` | 5 | `F1_domain_map` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `F2_phenology_curve` | | `F2_phenology_curve` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `F3_outcome_composition` | | `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `F4_source_maps` | | `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `F5_destination_maps` | | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `FS1_phenology_per_year` | | `FS1_phenology_per_year` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `FS2_currents` | | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `d883793` |
-| `MS1_outcome_movie` | 6-7 | `MS1_outcome_movie` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F2_phenology_curve` | 10 | `F2_phenology_curve` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F3_outcome_composition` | 12 | `F3_outcome_composition` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F4_source_maps` | 13 | `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `F5_destination_maps` | 14 | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `FS1_phenology_per_year` | 11 | `FS1_phenology_per_year` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `FS2_currents` | 6 | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `d883793` |
+| `MS1_outcome_movie` | 7-9 | `MS1_outcome_movie` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
