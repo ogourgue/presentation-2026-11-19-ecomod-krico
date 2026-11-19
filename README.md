@@ -25,13 +25,12 @@ python plot.py
 
 `shared/` holds files used by several figures.
 
-Five folders differ:
+Four folders differ:
 
 * `F0a_krill_predators_fishery` is a diagram and has no data. Its `plot.py` draws it from the shapes in `pictograms.py`.
 * `F0b_krill_life_cycle` is a diagram and has no data either. Its `plot.py` draws it from the shapes in `larvae.py` and in `F0a_krill_predators_fishery/pictograms.py`.
 * `FS1_phenology_per_year` has no aggregation of its own. Its `plot.py` reads the aggregated data of `F2_phenology_curve`.
-* The aggregated data of `FS2_currents` (about 58 MB) are not committed. Redrawing that figure needs its aggregation re-run first; see `FS2_currents/README.md`.
-* `MS1_outcome_movie` is a movie. Its `plot.py` writes one frame per day and `make_movie.sh` assembles them. Its aggregated data (a few hundred MB) are not committed either; see `MS1_outcome_movie/README.md`.
+* `MS1_outcome_movie` is a movie. Its `plot.py` writes one frame per day and `make_movie.sh` assembles them. Its aggregated data (a few hundred MB) are not committed; see `MS1_outcome_movie/README.md`.
 
 ## Re-running the aggregation
 
@@ -76,6 +75,6 @@ F1 and FS2 do not read the recruitment dataset. The aggregation of F1 needs the 
 | `F4_source_maps` | | `F4_source_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `F5_destination_maps` | | `F5_destination_maps` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `FS1_phenology_per_year` | | `FS1_phenology_per_year` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
-| `FS2_currents` | | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
+| `FS2_currents` | | `FS2_currents` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `d883793` |
 | `MS1_outcome_movie` | 6-7 | `MS1_outcome_movie` in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
 | `shared/ccamlr-data` | — | CCAMLR Statistical Areas shapefile, as in [krico-paper1](https://github.com/ogourgue/krico-paper1) @ `e8ae748` |
